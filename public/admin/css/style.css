@@ -1,0 +1,274 @@
+
+/* -----------------
+::: BASIC CSS
+----------------- */
+
+*{
+	margin: 0;
+	padding: 0; }
+body{
+	font-size: 18px;
+	box-sizing: border-box;
+}
+h1,h2,h3,h4,h5,h6{
+	color: #2e2e2e;
+	line-height: 1.6; }
+h1{
+	font-size: 100px;
+	color: #ffffff;
+	font-family:'Montserrat-Thin';
+}
+h2{
+	font-size: 34px;
+	line-height: 1.4;
+	font-family: 'Montserrat-Bold';
+}
+h3{
+	font-size: 20px;
+	font-family: 'Montserrat-ExtraBold';
+}
+h4{
+	font-size: 18px;
+	color: #ffffff;
+	font-family: 'Montserrat-Regular';
+	text-transform: capitalize;
+	margin-bottom: 30px;
+}
+h5{
+	font-size: 14px;
+	font-family: 'Montserrat-Bold';
+	color: rgb(155, 156, 173);
+	line-height: 1.2;
+}
+p {
+	color: #838383;
+	font-size: 15px;
+	line-height: 1.7;
+	font-family: 'Montserrat-Regular';
+}
+
+a {
+  text-decoration: none;
+  outline: 0 solid transparent;
+  font-weight: 400; }
+
+  a:hover, a:focus {
+    text-decoration: none;
+    outline: 0 solid transparent; }
+
+ul,
+ol {
+  margin: 0; }
+  ul li,
+  ol li {
+    list-style: none; }
+
+/* Miscellaneous */
+.bg-img {
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat; }
+.bg-black{
+	background: black; }
+
+
+.wrapper{
+    display: flex;
+}
+.main_sidebar{
+/*    position: fixed;*/
+    width: 300px;
+    min-height: 100vh;
+    height: 100%;
+    background: #343a40;
+}
+.hasan{
+/*    background: green;*/
+    width: 150px;
+    transition: 1s all;
+}
+.hasan:hover{
+    width: 300px;
+}
+.hasan .nav-link span, .hasan .nav-link[data-toggle="collapse"]::after{
+    display: none;
+}
+.hasan:hover .nav-link span, .hasan:hover .hasan .nav-link[data-toggle="collapse"]::after{
+    display: inline-block;
+}
+
+.sidebar_brand{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 15px;
+    border-bottom: 2px solid #4f5962;
+}
+.sidebar_brand_img i{
+    font-size: 22px;
+    margin: 10px;
+    color: #fff;
+}
+.sidebar_brand_text{
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    text-transform: capitalize;
+}
+.main_sidebar .nav-link{
+    color: #fff;
+    width: 100%;
+    padding: 10px 20px;
+    display: block;
+}
+.main_sidebar .nav-link i{
+    margin-right: 10px;
+}
+.main_sidebar .nav-link:hover{
+    background: #2e3339
+}
+.main_sidebar .nav-item .nav-link[data-toggle="collapse"].collapsed::after {
+    content: "\f105";
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    float: right;
+}
+.main_sidebar .nav-item .nav-link[data-toggle="collapse"]::after {
+    width: 1rem;
+    text-align: center;
+    float: right;
+    vertical-align: 0;
+    border: 0;
+    font-weight: 900;
+    content: '\f107';
+    font-family: 'Font Awesome 5 Free';
+}
+
+/*----------main_header----------*/
+#content-wrapper{
+    width: 100%;
+    background: #f8f9fc;
+}
+.main_header{
+/*    border-bottom: 2px solid gray;*/
+}
+.main_header .nav-link{
+    color: #d1d3e2;
+    display: flex;
+    align-items: center;
+    height: 3.375rem;
+    padding: 0 .75rem;
+}
+
+.icon-circle {
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dropdown-toggle::after{
+    display: none;
+}
+.badge-counter{
+    position: absolute;
+    transform-origin: top right;
+    transform: scale(.7);
+    right: .25rem;
+    margin-top: -.25rem;
+}
+.img-profile{
+    width: 2rem;
+    height: 2rem;
+}
+.dropodown-item {
+    display: block;
+    padding: 5px 30px;
+    width: 100%;
+}
+.fa-sm{
+    font-size: 16px;
+}
+.dropdown-menu {
+    top: 78px;
+}
+.dropdown-header{
+    background: #343a40;
+    color: #fff;
+}
+.dropdown-list{
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 20rem;
+    overflow: hidden;
+}
+.dropdown-list .dropdown-item{
+    white-space: normal;
+    font-size: 17px;
+    padding: 10px 30px;
+    border-bottom: 1px solid #e3e6f0;
+}
+.dropdown-list-img{
+    height: 2.2rem;
+    width: 2.2rem;
+    position: relative;
+}
+.dropdown-list-img img{
+    height: 2.2rem;
+    width: 2.2rem;
+}
+.status-indicator{
+    height: 12px;
+    width: 12px;
+    position: absolute;
+    border-radius: 100%;
+    right: 0;
+    bottom: 0;
+}
+.text-truncate{
+    max-width: 13.5rem;
+}
+.text-gray-400 {
+  color: #d1d3e2 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
