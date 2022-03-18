@@ -25,8 +25,8 @@ Cart Page
 <!-- Breadcrumb Section End -->
 
 <!-- Shoping Cart Section Begin -->
-<section class="shoping-cart spad">
-    <div class="container">
+<section class="shoping-cart spad" id="shoping-card">
+    <div class="container shoping-card-ajax">
         <div class="row">
             <div class="col-lg-12">
                 <div class="shoping__cart__table">
@@ -41,8 +41,8 @@ Cart Page
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($carts as $cart)
-                            <tr>
+                            {{-- @forelse($carts as $cart)
+                            <tr class="cartpage">
                                 <td class="shoping__cart__item">
                                     <img width="100px" src="{{asset('public/site/images/products/'.$cart->product->product_img)}}" alt="Product">
                                     <h5>{{$cart->product->product_name}}</h5>
@@ -61,7 +61,7 @@ Cart Page
 
                                 </td>
                                 <td class="shoping__cart__total">
-                                    $ <span id="s_total">{{$cart->qty * $cart->price}}</span>.00
+                                    $ <span class="grand-total-price">{{$cart->qty * $cart->price}}</span>.00
                                 </td>
                                 <td class="shoping__cart__item__close">
                                     <button data-id="{{ $cart->id }}" type="button" id="cart_destroy" class="btn btn-sm btn-destroy"><span class="icon_close"></span></button>
@@ -71,13 +71,14 @@ Cart Page
                             <tr>
                                 <td colspan="4">No Data Available </td>
                             </tr>
-                            @endforelse
+                            @endforelse --}}
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div id="shoping_checkout_wc">
+        <div class="row carttotal_wc">
             <div class="col-lg-12">
                 <div class="shoping__cart__btns">
                     <a href="{{url('/')}}" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
@@ -98,14 +99,14 @@ Cart Page
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="shoping__checkout">
+                <div class="shoping__checkout" id="shoping_checkout">
+                    <div class="carttotal">
                     <h5>Cart Total</h5>
                     <ul>
                         <li>Subtotal <span id="subtotal">${{$subtotal}}</span></li>
                         <input type="hidden" value="{{$subtotal}}" id="subtotalval">
                         @if(Session::has('coupon_name'))
-                        <li>Coupon <span class="float-let">{{Session()->get('coupon_name')['coupon_name']}}</span>
-                            <a href="{{url('/coupon/destroy')}}"><span class="icon_close"></span></a>
+                        <li>Coupon <span class="float-let"> <button style="border: none" onclick="coupondestroy()"><span class="icon_close"></span></button> {{Session()->get('coupon_name')['coupon_name']}}</span>  
                         </li>
                         <li>Discount <span>{{$discount_percentage = Session()->get('coupon_name')['discount']}} % ($ {{$discount = $subtotal * $discount_percentage / 100}})</span></li>
                         <li>Total <span id="total">${{$subtotal - $discount}}</span></li>
@@ -118,8 +119,10 @@ Cart Page
                     <a href="{{url('checkout')}}" class="primary-btn">PROCEED TO CHECKOUT</a>
                 </div>
             </div>
+            </div>
         </div>
     </div>
+</div>
 </section>
 <!-- Shoping Cart Section End -->
 
@@ -127,25 +130,40 @@ Cart Page
 
 @section('script')
 <script>
+    $(document).on('click', '.qtybtn', function () {
+        var $button = $(this);
+        var oldValue = $button.parent().find('input').val();
+        if ($button.hasClass('inc')) {
+            var newVal = parseFloat(oldValue) + 1;
+        } else {
+            // Don't allow decrementing below zero
+            if (oldValue > 0) {
+                var newVal = parseFloat(oldValue) - 1;
+            } else {
+                newVal = 0;
+            }
+        }
+        $button.parent().find('input').val(newVal);
+    });
 
     $.ajaxSetup({
             headers: {'X-CSRF-Token' : '{{csrf_token()}}'}
         })
 
 
-    //     getData()
-    // function  getData(){
-    //     $.ajax({
-    //         url: '{{ route('cart.data') }}',
-    //         method: 'GET',
-    //         success: function (data){
-    //             $('#dataTables tbody').html(data)
-    //         },
-    //         error: function (error){
-    //             console.log(error)
-    //         }
-    //     })
-    // }
+        getData()
+    function  getData(){
+        $.ajax({
+            url: '{{ route('cart.data') }}',
+            method: 'GET',
+            success: function (data){
+                $('#dataTables tbody').html(data)
+            },
+            error: function (error){
+                console.log(error)
+            }
+        })
+    }
 
     $(document).on('click','#cart_destroy',function(e){
         e.preventDefault();
@@ -156,8 +174,9 @@ Cart Page
             method: 'POST',
             data: { id: id},
             success: function (data){
-                // console.log(data)
-                location.reload()
+                console.log(data)
+                getData()
+                $('#shoping_checkout').load(location.href + ' .carttotal')
             },
             error: function (error){
                 console.log(error)
@@ -168,6 +187,7 @@ Cart Page
 
     $(document).on('click','.qtybtn',function(e){
         e.preventDefault();
+        $clickthis = $(this);
         var id = $(this).parent().parent().parent().find('#cart_id').val()
         var qty = $(this).parent().parent().parent().find('#qtyval').val()
         var url = '{{ route('cart.update') }}'
@@ -176,9 +196,9 @@ Cart Page
             method: 'POST',
             data: { id: id, qty:qty},
             success: function (data){
-                // $('#s_total').text(data.s_total)
-                // console.log(data)
-                window.location.reload()
+                $clickthis.closest('.cartpage').find('.grand-total-price').text(data.gtprice)
+                $('#shoping_checkout').load(location.href + ' .carttotal')
+                console.log(data)
             },
             error: function (error){
                 console.log(error)
@@ -195,24 +215,34 @@ Cart Page
             method: 'POST',
             data: { coupon_code: coupon_code},
             success: function (data){
-                // console.log(data)
-                window.location.reload()
+                console.log(data)
+                $('#shoping_checkout').load(location.href + ' .carttotal')
                 if(data == ''){
-                    Swal.fire({
+                    const Toast = Swal.mixin({
+                    toast: true,
                     position: 'top-end',
-                    icon: 'success',
-                    title: 'Coupon is  Invalid !!',
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 3000,
+                    timerProgressBar: true
                     })
+
+                    Toast.fire({
+                    icon: 'warning',
+                    title: 'Coupon is  Invalid !!'
+                })
                 }else{
-                    Swal.fire({
+                    const Toast = Swal.mixin({
+                    toast: true,
                     position: 'top-end',
-                    icon: 'success',
-                    title: 'Coupon Apply Successfully !!!',
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 3000,
+                    timerProgressBar: true
                     })
+
+                    Toast.fire({
+                    icon: 'success',
+                    title: 'Coupon Apply Successfully !!!'
+                })
                 }
             },
             error: function (error){
@@ -220,7 +250,16 @@ Cart Page
             }
         })
     })
-
+ function coupondestroy(){
+     $.ajax({
+         type: 'get',
+         url: 'coupon/destroy',
+         success: function (response){
+             console.log(response);
+             $('#shoping_checkout_wc').load(location.href + ' .carttotal_wc')
+         }
+     })
+ }
 
 
     

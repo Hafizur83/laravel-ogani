@@ -321,22 +321,32 @@ Homepage
             data: { id: id},
             success: function (data){
                 if(data == ''){
-                    Swal.fire({
+                    const Toast = Swal.mixin({
+                        toast: true,
                         position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true
+                        })
+
+                        Toast.fire({
                         icon: 'success',
                         title: 'Product Add to Wishlist !!',
-                        showConfirmButton: false,
-                        timer: 1500
-                        })
+                    })
                     $('#wishlist_count').text(wishlist_count + 1)
                 }else{
-                    Swal.fire({
+                    const Toast = Swal.mixin({
+                        toast: true,
                         position: 'top-end',
-                        icon: 'success',
-                        title: 'Product Already to Wishlist !!',
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 2000,
+                        timerProgressBar: true
                         })
+
+                        Toast.fire({
+                        icon: 'warning',
+                        title: 'Product Already to Wishlist !!',
+                    })   
                 }
             }
         })
@@ -355,24 +365,33 @@ Homepage
             data: { id: id},
             success: function (data){
                 if(data == ''){
-                    Swal.fire({
+                    const Toast = Swal.mixin({
+                        toast: true,
                         position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true
+                        })
+
+                        Toast.fire({
                         icon: 'success',
                         title: 'Product Add to Cart !!',
-                        showConfirmButton: false,
-                        timer: 1500
-                        })
+                    })
                     $('#quantity').text(quantity + 1)
                 }else{
                     $('#quantity').text(quantity + 1)
-                    Swal.fire({
+                    const Toast = Swal.mixin({
+                        toast: true,
                         position: 'top-end',
-                        icon: 'success',
-                        title: 'Product Already to Cart !!',
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 2000,
+                        timerProgressBar: true
                         })
-                        
+
+                        Toast.fire({
+                        icon: 'warning',
+                        title: 'Product Already to Cart !!',
+                    })   
                 }
             }
         })

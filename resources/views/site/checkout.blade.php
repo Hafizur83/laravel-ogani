@@ -9,6 +9,9 @@ Checkout Page
     border-color: #dc3545 !important;
     padding-right: calc(1.5em + .75rem);
 }
+.err-msg{
+    font-size: 80%;
+}
 </style>
 @endsection
 
@@ -50,8 +53,8 @@ Checkout Page
                                         <p>Fist Name<span>*</span></p>
                                         <input type="text" name="shipping_firstName" class="input @error('shipping_firstName') is-invalid @enderror" value="{{ Auth::user()->name ?? ''}}">
                                         @error('shipping_firstName')
-                                        <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
+                                        <span class="text-danger err-msg" role="alert">
+                                           {{ $message }}
                                         </span>
                                             @enderror
                                     </div>
@@ -61,8 +64,8 @@ Checkout Page
                                         <p>Last Name<span>*</span></p>
                                         <input type="text" name="shipping_lastName">
                                         @error('shipping_lastName')
-                                        <span style="font-size: 80%" class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
+                                        <span class="text-danger err-msg" role="alert">
+                                           {{ $message }}
                                         </span>
                                             @enderror
                                     </div>
@@ -71,15 +74,30 @@ Checkout Page
                             <div class="checkout__input">
                                 <p>Address<span>*</span></p>
                                 <input type="text" name="address"  placeholder="Street Address" class="checkout__input__add">
+                                @error('address')
+                                <span class="text-danger err-msg" role="alert">
+                                   {{ $message }}
+                                </span>
+                                    @enderror
                             
                             </div>
                             <div class="checkout__input">
                                 <p>District<span>*</span></p>
                                 <input type="text" name="district">
+                                @error('district')
+                                <span class="text-danger err-msg" role="alert">
+                                   {{ $message }}
+                                </span>
+                                    @enderror
                             </div>
                             <div class="checkout__input">
                                 <p>Postcode / ZIP<span>*</span></p>
                                 <input type="text" name="post_code">
+                                @error('post_code')
+                                <span class="text-danger err-msg" role="alert">
+                                   {{ $message }}
+                                </span>
+                                    @enderror
                             </div>
                             <div class="row">
                                 <div class="col-lg-6">
@@ -88,7 +106,7 @@ Checkout Page
                                         <input type="text" name="shipping_phone">
                                         @error('shipping_phone')
                                         <span style="font-size: 80%" class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
+                                           {{ $message }}
                                         </span>
                                             @enderror
                                     </div>
@@ -97,6 +115,11 @@ Checkout Page
                                     <div class="checkout__input">
                                         <p>Email<span>*</span></p>
                                         <input type="text" name="shipping_email" value="{{ Auth::user()->email ?? ''}}">
+                                        @error('shipping_email')
+                                        <span class="text-danger err-msg" role="alert">
+                                           {{ $message }}
+                                        </span>
+                                            @enderror
                                     </div>
                                 </div>
                             </div>
@@ -138,8 +161,8 @@ Checkout Page
                                     </label>
                                 </div>
                                 @error('payment_type')
-                                <span style="font-size: 80%" class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                <span class="text-danger err-msg" role="alert">
+                                   {{ $message }}
                                 </span>
                                     @enderror
                                 <button type="submit" class="site-btn">PLACE ORDER</button>

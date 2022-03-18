@@ -28,16 +28,13 @@ class OrderController extends Controller
     {
         $validated = $request->validate([
             'payment_type' => 'required',
-        //     'shipping_firstName' => 'required',
+            'shipping_firstName' => 'required',
             'shipping_lastName' => 'required',
-        //     'shipping_email' => 'required',
+            'shipping_email' => 'required',
             'shipping_phone' => 'required',
-        //     // 'address' => 'required',
-        //     'district' => 'required',
-
-        //     'post_code' => 'required',
-        // ],[
-        //     'payment_type.required' => 'Catagory name can not be empty',
+            'address' => 'required',
+            'district' => 'required',
+            'post_code' => 'required',
         ]);
 
         $order_id = Order::insertGetId([

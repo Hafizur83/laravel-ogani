@@ -195,24 +195,14 @@ shop Page
                                             <ul class="product__item__pic__hover">
                                             @if(Auth::check())
                                                 <li>
-                                                    <form action="{{url('wishlist/add/'.$product->id)}}" method="post">
-                                                    @csrf
-                                                            <input type="hidden" name="product_id" value="{{$product->id}}">
-                                                            <button type="submit"><i class="fa fa-heart"></i></button>
-                                                    </form>
+                                                    <li> <button class="add-cart" data-id="{{ $product->id }}" id="addwish"><i class="fa fa-heart"></i></button></li>
                                                 </li>
                                             @else
 
                                                 <li><a href="#" data-toggle="modal" data-target="#loginModal"><i class="fa fa-heart"></i></a></li>
                                              @endif
                                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                                <li>
-                                                    <form action="{{url('add/to-cart/'.$product->id)}}" method="post">
-                                                        @csrf
-                                                        <input type="hidden" name="price" value="{{$product->price}}">
-                                                        <button type="submit"><i class="fa fa-shopping-cart"></i></button>
-                                                    </form>
-                                                </li>
+                                                <li> <button class="add-cart" data-id="{{ $product->id }}" id="addcart"><i class="fa fa-shopping-cart"></i></button></li>
                                             </ul>
                                         </div>
                                         <div class="product__discount__item__text">
@@ -258,24 +248,14 @@ shop Page
                                     <ul class="product__item__pic__hover">
                                             @if(Auth::check())
                                         <li>
-                                            <form action="{{url('wishlist/add/'.$product->id)}}" method="post">
-                                            @csrf
-                                                    <input type="hidden" name="product_id" value="{{$product->id}}">
-                                                    <button type="submit"><i class="fa fa-heart"></i></button>
-                                            </form>
+                                            <li> <button class="add-cart" data-id="{{ $product->id }}" id="addwish"><i class="fa fa-heart"></i></button></li>
                                         </li>
                                     @else
 
                                         <li><a href="#" data-toggle="modal" data-target="#loginModal"><i class="fa fa-heart"></i></a></li>
                                         @endif
                                         <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                        <li>
-                                            <form action="{{url('add/to-cart/'.$product->id)}}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="price" value="{{$product->price}}">
-                                                <button type="submit"><i class="fa fa-shopping-cart"></i></button>
-                                            </form>
-                                        </li>
+                                        <li> <button class="add-cart" data-id="{{ $product->id }}" id="addcart"><i class="fa fa-shopping-cart"></i></button></li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
@@ -292,4 +272,102 @@ shop Page
         </div>
     </section>
     <!-- Product Section End -->
+@endsection
+@section('script')
+<script>
+      $.ajaxSetup({
+            headers: {'X-CSRF-Token' : '{{csrf_token()}}'}
+        })
+
+// Add To Cart Wishlist 
+    $(document).on('click','#addwish',function(e){
+        e.preventDefault();
+        var wishlist_count = Number($('#wishlist_count').text())
+        var id = $(this).attr('data-id')
+        var url = '{{ route('add.wishlist') }}'
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: { id: id},
+            success: function (data){
+                if(data == ''){
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true
+                        })
+
+                        Toast.fire({
+                        icon: 'success',
+                        title: 'Product Add to Wishlist !!',
+                    })
+                    $('#wishlist_count').text(wishlist_count + 1)
+                }else{
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true
+                        })
+
+                        Toast.fire({
+                        icon: 'warning',
+                        title: 'Product Already to Wishlist !!',
+                    })   
+                }
+            }
+        })
+    })
+
+// Add To Cart Script 
+    $(document).on('click','#addcart',function(e){
+        e.preventDefault();
+        var quantity = Number($('#quantity').text())
+        var id = $(this).attr('data-id')
+        var url = '{{ route('add.cart') }}'
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: { id: id},
+            success: function (data){
+                if(data == ''){
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true
+                        })
+
+                        Toast.fire({
+                        icon: 'success',
+                        title: 'Product Add to Cart !!',
+                    })
+                    $('#quantity').text(quantity + 1)
+                }else{
+                    $('#quantity').text(quantity + 1)
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        timerProgressBar: true
+                        })
+
+                        Toast.fire({
+                        icon: 'warning',
+                        title: 'Product Already to Cart !!',
+                    })   
+                }
+            }
+        })
+    })
+
+
+</script>
 @endsection

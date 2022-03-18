@@ -19,7 +19,7 @@ class CartController extends Controller
         }else{
             $output = '';
         foreach($carts as $row){ 
-            $output .='<tr>
+            $output .='<tr class="cartpage">
                 <td class="shoping__cart__item">
                     <img width="100px" src="'.asset("public/site/images/products").'/'.$row->product->product_img.'" alt="Product">
                     <h5>'.$row->product->product_name.'</h5>
@@ -38,7 +38,7 @@ class CartController extends Controller
                     </div>
                 </td>
                 <td class="shoping__cart__total">
-                    $'.$row->qty * $row->price.'.00
+                    $ <span class="grand-total-price">'.$row->qty * $row->price.'</span>.00
                 </td>
                 <td class="shoping__cart__item__close">
                     <button data-id="'. $row->id.'" type="button" id="cart_destroy" class="btn btn-sm btn-destroy"><span class="icon_close"></span></button>
@@ -84,15 +84,10 @@ class CartController extends Controller
         Cart::where('id',$r->id)->where('user_ip',request()->ip())->update([
             'qty' =>$r->qty
         ]);
-        // $cart =  Cart::where('id',$r->id)->where('user_ip',request()->ip())->first();
-
-        // $s_total = $cart->qty * $cart->price;
-
-        // $data = ([
-        //     's_total' => $s_total
-        // ]);
-
-        // return $data;
+        $cart =  Cart::where('id',$r->id)->where('user_ip',request()->ip())->first();
+        $gp_total = $cart->qty * $cart->price;
+        $data['gtprice'] = $gp_total;
+        return $data;
         
     }
 
@@ -120,7 +115,6 @@ class CartController extends Controller
         if(Session::has('coupon_name')){
             Session()->forget('coupon_name');
         }
-        return redirect()->back()->with('cart_delete', 'Coupon is  Remove !!');
     }
     
 }

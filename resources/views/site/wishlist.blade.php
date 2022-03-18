@@ -70,13 +70,18 @@ Wishlist Page
             data: { id: id},
             success: function (data){
                 $('#wishlist_count').text(wishlist_count - 1)
-                Swal.fire({
+                const Toast = Swal.mixin({
+                    toast: true,
                     position: 'top-end',
-                    icon: 'success',
-                    title: 'Product Removed from Wishlist !!',
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 3000,
+                    timerProgressBar: true
                     })
+
+                    Toast.fire({
+                    icon: 'success',
+                    title: 'Product Removed from Wishlist !!'
+                })
                 getData()
             }
         })
